@@ -129,6 +129,11 @@ echo -n 'your-app-password' | base64
 - **Description:** Handles cart functionality for users.
 - **Service:** Internal service for cart operations.
 
+#### h. **Currency Service**
+- **Deployment Name:** `currencyservice`
+- **Image:** `aditya090/projectk8s:mscurrencysvc`
+- **Description:** `Provides currency conversion rates for product pricing`.
+- **Service:** Internal API service for currency conversion.
 ---
 
 ## Destroying the Infrastructure
@@ -155,6 +160,25 @@ terraform destroy
 
 ## Architecture Overview
 
+
+# Microservices Infrastructure Deployment with Terraform & Kubernetes
+
+This project provisions a **microservices-based e-commerce application** on an **Azure AKS cluster** using **Terraform** for Infrastructure as Code (IaC). The application consists of multiple interconnected services such as frontend, cart, product catalog, recommendation, shipping, payment, currency, and email.
+
+---
+
+## 📂 Project Overview
+
+- **Infrastructure Management:** Terraform
+- **Cluster:** Azure AKS
+- **Namespace:** `ms`
+- **Secrets Management:** Kubernetes secrets
+- **Goal:** Deploy a production-ready microservices ecosystem
+
+---
+
+## 🏗️ Architecture Diagram
+
 ```text
 +-------------------+
 |   Terraform Cloud |
@@ -169,20 +193,23 @@ terraform destroy
 +-------------------------------------------------------------+
 | Namespace: ms                                               |
 |                                                             |
-| +-----------+   +-------------+   +-------------+           |
-| | Frontend  |<->| Recommendation|<->| Product   |           |
-| |  Service  |   |   Service    |   | Catalog   |           |
-| +-----------+   +-------------+   +-------------+           |
+| +-----------+   +-----------------+   +-------------+       |
+| | Frontend  |<->| Recommendation  |<->| Product     |       |
+| |  Service  |   |     Service     |   | Catalog     |       |
+| +-----------+   +-----------------+   +-------------+       |
 |      |                    |                 |               |
 |  +-----------+      +-----------+     +-----------+         |
 |  | Cart Svc  |      | Shipping  |     | Payment   |         |
 |  +-----------+      +-----------+     +-----------+         |
 |                                                             |
+|  +-----------+                                             |
+|  | Currency  |                                             |
+|  |  Svc      |                                             |
+|  +-----------+                                             |
 |                    +-------------+                         |
 |                    | Email Svc   |                         |
 |                    +-------------+                         |
 +-------------------------------------------------------------+
-```
 
 ---
 

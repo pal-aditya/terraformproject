@@ -13,7 +13,7 @@ terraform {
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "~>2.0"
+      version = ">=2.16,<3.0"
     }
   }
 }
@@ -327,9 +327,10 @@ resource "kubernetes_secret" "scret" {
     name      = "secretsvc"
     namespace = kubernetes_namespace.ns.metadata[0].name
   }
-  string_data = {
-    "SMTP_PASS" = var.secretpass #should be changed
+  data = {
+    "SMTP_PASS" = base64encode(var.secretpass) #should be changed
   }
+  type = "Opaque"
 }
 
 resource "kubernetes_config_map" "emailcnfg" {

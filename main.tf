@@ -320,7 +320,12 @@ resource "kubernetes_deployment" "paymentsvc" {
   }
 }
 
-variable "secretpass"{}
+#@variable "secretpass"{}
+#variable "smtp_pass" {
+#  description = "SMTP password for Gmail or email service"
+#  type        = string
+#  sensitive   = true
+#}
 
 resource "kubernetes_secret" "scret" {
   metadata {
@@ -328,11 +333,10 @@ resource "kubernetes_secret" "scret" {
     namespace = kubernetes_namespace.ns.metadata[0].name
   }
   data = {
-    "SMTP_PASS" = base64encode(var.secretpass) #should be changed
+    SMTP_PASS = "XXXXXXXXXXXXXXX" #paste your values
   }
   type = "Opaque"
 }
-
 resource "kubernetes_config_map" "emailcnfg" {
   metadata {
     name      = "smtp"
